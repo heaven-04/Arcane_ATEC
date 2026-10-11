@@ -1,0 +1,24 @@
+# Python Virtual Environments
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+
+# IDE & Testing Caches
+.idea/
+.vscode/
+.pytest_cache/
+
+# Datasets & Training Output
+Dataset/
+data/
+runs/
+logs/
+
+
+
+
+# OS Files
+Thumbs.db
+.DS_Store

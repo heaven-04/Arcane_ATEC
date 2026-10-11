@@ -1,0 +1,19 @@
+# Project C.R.A.T.E.R. Dependencies
+# Perception & Vision
+ultralytics>=8.0.0
+opencv-python>=4.8.0
+numpy>=1.24.0
+
+# Export & Optimization
+onnx>=1.14.0
+onnxruntime>=1.15.0
+
+# Backend & Communication
+fastapi>=0.100.0
+uvicorn>=0.23.0
+websockets>=11.0.3
+
+# Utilities & Benchmarking
+psutil>=5.9.0
+pytest>=7.4.0
+PyYAML>=6.0

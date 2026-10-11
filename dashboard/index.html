@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C.R.A.T.E.R. Tactical Operator Console</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Chart.js for live telemetry graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="tactical-header">
+        <div class="brand">
+            <h1>C.R.A.T.E.R. <span>// SYSTEM O.S.</span></h1>
+            <div class="subtitle">CONSTRAINED RECONNAISSANCE & TELEMETRY</div>
+        </div>
+        <div class="origin-hud">
+            <span>ORIGIN: <strong>LANDING SITE (0.0, 0.0)</strong></span>
+        </div>
+        <div class="status-container">
+            <span class="label">UPLINK STATUS:</span>
+            <div id="connection-status" class="status offline">OFFLINE</div>
+        </div>
+    </header>
+
+    <main class="dashboard-grid">
+        <!-- Left Column: Telemetry & Live Vitals -->
+        <aside class="sidebar left-sidebar">
+            <div class="panel hud-panel">
+                <h2>ROVER VITALS & RELATIVE POS</h2>
+                <div id="rover-data" class="data-feed">Awaiting signal...</div>
+            </div>
+
+            <div class="panel chart-panel">
+                <h2>BATTERY DRAIN</h2>
+                <canvas id="batteryChart"></canvas>
+            </div>
+
+            <div class="panel chart-panel">
+                <h2>LINK PACKET LOSS</h2>
+                <canvas id="lossChart"></canvas>
+            </div>
+        </aside>
+
+        <!-- Center Column: Interactive 60 FPS Sweep Radar -->
+        <section class="panel radar-panel">
+            <div class="radar-container">
+                <canvas id="mapCanvas" width="800" height="800"></canvas>
+
+                <!-- Target Inspector Overlay Modal -->
+                <div id="hazard-inspector" class="inspector-card hidden">
+                    <button id="close-inspector" class="btn-close">&times;</button>
+                    <div class="inspector-header">
+                        <span id="insp-id" class="insp-title">H-1</span>
+                        <span id="insp-class" class="insp-tag">ROCK / REGOLITH</span>
+                    </div>
+                    <div class="inspector-body">
+                        <div class="insp-row">
+                            <span class="insp-label">CONFIDENCE ACCURACY:</span>
+                            <span id="insp-conf" class="insp-val highlight">98.5%</span>
+                        </div>
+                        <div class="insp-row">
+                            <span class="insp-label">GLOBAL POS (ORIGIN):</span>
+                            <span id="insp-global" class="insp-val">[18.4m, 24.2m]</span>
+                        </div>
+                        <div class="insp-row">
+                            <span class="insp-label">RELATIVE TO ROVER:</span>
+                            <span id="insp-rel" class="insp-val">12.4m @ 15.2°</span>
+                        </div>
+                        <div class="insp-row">
+                            <span class="insp-label">OFFSET (ΔX, ΔY):</span>
+                            <span id="insp-offset" class="insp-val">ΔX: +3.2m, ΔY: +12.0m</span>
+                        </div>
+                        <div class="insp-row">
+                            <span class="insp-label">TELEMETRY AGE / STATE:</span>
+                            <span id="insp-age" class="insp-val">0.2s (FRESH)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Column: Network Controls & Active Hazard List -->
+        <aside class="sidebar right-sidebar">
+            <div class="panel control-panel">
+                <h2>LINK DEGRADATION CONTROL</h2>
+                <form id="network-form" class="tactical-form">
+                    <div class="input-group">
+                        <label>LOSS RATE (0.0 - 1.0)</label>
+                        <input type="number" id="loss" step="0.01" min="0" max="1" placeholder="0.20">
+                    </div>
+                    <div class="input-group">
+                        <label>LATENCY (ms)</label>
+                        <input type="number" id="latency" step="1" min="0" placeholder="50">
+                    </div>
+                    <button type="submit" class="btn-primary">APPLY INTERFERENCE</button>
+                </form>
+                <button id="btn-blackout" class="btn-danger">INITIATE 10s BLACKOUT</button>
+            </div>
+
+            <div class="panel hazard-panel">
+                <h2>DETECTED HAZARDS (CLICK TO INSPECT)</h2>
+                <div class="list-header">
+                    <span>ID</span>
+                    <span>CLASS</span>
+                    <span>CONF</span>
+                    <span>AGE</span>
+                </div>
+                <ul id="hazard-list" class="scrolling-list"></ul>
+            </div>
+        </aside>
+    </main>
+
+    <script src="main.js"></script>
+</body>
+</html>

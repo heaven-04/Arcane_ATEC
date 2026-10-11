@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>C.R.A.T.E.R Live Telemetry</title>
+    <style>
+        body { background-color: #0d1117; color: #00ff00; font-family: monospace; padding: 20px; }
+        #log { white-space: pre-wrap; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <h2>Mission Control - Live Data Stream</h2>
+    <div id="log">Waiting for rover telemetry...</div>
+
+    <script>
+        // Connect to your FastAPI backend
+        const ws = new WebSocket("ws://localhost:8000/ws");
+        const log = document.getElementById("log");
+
+        ws.onopen = () => {
+            log.innerText = "UPLINK ESTABLISHED. Waiting for data...\n";
+        };
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            // Print the incoming payload to the screen
+            const logEntry = `[ROVER ${data.rover_id}] Hazard: ${data.hazard_class} | X: ${data.x_m}m, Y: ${data.y_m}m | Conf: ${data.confidence}\n`;
+            log.innerText = logEntry + log.innerText;
+        };
+
+        ws.onclose = () => {
+            log.innerText += "\nUPLINK LOST.";
+        };
+    </script>
+</body>
+</html>
